@@ -3,7 +3,7 @@
 
 ##############################################################################
 #
-# Authors: David Lovitch <dlovitch@gmail.com>
+# ©2015 David Lovitch <dlovitch@gmail.com>
 #
 ##############################################################################
 
@@ -23,17 +23,20 @@ parser_notificationtype = parser.add_mutually_exclusive_group(required=True)
 parser_notificationtype.add_argument("--host", help="Host notification", action="store_true")
 parser_notificationtype.add_argument("--service", help="Service Notification", action="store_true")
 parser.add_argument("--hostaddress", help="Host address")
+parser.add_argument("--longdatetime", help="Date/time")
 parser_hostnotification = parser.add_argument_group('Host Notification', 'Host notifications')
 parser_hostnotification.add_argument("--hostname", help="Hostname")
 parser_hostnotification.add_argument("--hoststate", help="Host state")
 parser_hostnotification.add_argument("--hostoutput", help="Host output")
-parser_hostnotification.add_argument("--longdatetime", help="Date/time")
 parser_servicenotification = parser.add_argument_group('Service Notification', 'Service notifications')
 parser_servicenotification.add_argument("--servicedesc", help="Service description")
 parser_servicenotification.add_argument("--hostalias", help="Host alias")
 parser_servicenotification.add_argument("--servicestate", help="Service state")
+parser_servicenotification.add_argument("--serviceoutput", help="Service output")
+
 cmdargs = parser.parse_args()
 argsdict = vars(parser.parse_args())
+
 message = {}
 
 if cmdargs.host:
@@ -53,7 +56,6 @@ if cmdargs.host:
         message['hostaddress']      = argsdict['hostaddress']
         message['hostoutput']       = argsdict['hostoutput']
         message['longdatetime']     = argsdict['longdatetime']
-        
 
 if cmdargs.service:
     if (    cmdargs.servicedesc     == None or

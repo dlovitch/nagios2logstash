@@ -16,6 +16,9 @@ try:
 except ImportError:
     sys.exit('Failed to import at least one module, exiting.')
 
+#syslog.syslog(syslog.LOG_ERR,str(len(sys.argv)))
+#syslog.syslog(syslog.LOG_ERR,str(sys.argv))
+
 parser = argparse.ArgumentParser(description="Nagios to Logstash")
 parser.add_argument("--logstash-host", help="Logstash hostname", required=True)
 parser.add_argument("--logstash-port", help="Logstash port", required=True)
@@ -36,6 +39,8 @@ parser_servicenotification.add_argument("--serviceoutput", help="Service output"
 
 cmdargs = parser.parse_args()
 argsdict = vars(parser.parse_args())
+#syslog.syslog(syslog.LOG_ERR,str(cmdargs))
+#syslog.syslog(syslog.LOG_ERR,str(argsdict))
 
 message = {}
 
@@ -79,3 +84,5 @@ if cmdargs.service:
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.sendto(json.dumps(message), (cmdargs.logstash_host, int(cmdargs.logstash_port)))
+
+#syslog.syslog(syslog.LOG_ERR,"message sent")

@@ -16,9 +16,6 @@ try:
 except ImportError:
     sys.exit('Failed to import at least one module, exiting.')
 
-#syslog.syslog(syslog.LOG_ERR,str(len(sys.argv)))
-#syslog.syslog(syslog.LOG_ERR,str(sys.argv))
-
 parser = argparse.ArgumentParser(description="Nagios to Logstash")
 parser.add_argument("--logstash-host", help="Logstash hostname", required=True)
 parser.add_argument("--logstash-port", help="Logstash port", required=True)
@@ -43,6 +40,7 @@ argsdict = vars(parser.parse_args())
 #syslog.syslog(syslog.LOG_ERR,str(argsdict))
 
 message = {}
+message['message_type'] = 'nagios-notification'
 
 if cmdargs.host:
     if (    cmdargs.hostname        == None or
@@ -54,7 +52,6 @@ if cmdargs.host:
         syslog.syslog(syslog.LOG_ERR,'host notification argument missing')
         sys.exit('host notification argument missing')
     else:
-        message['message_source']   = 'nagios'
         message['notificationtype'] = 'host'
         message['hostname']         = argsdict['hostname']
         message['hoststate']        = argsdict['hoststate']
@@ -73,7 +70,6 @@ if cmdargs.service:
         syslog.syslog(syslog.LOG_ERR,'service notification argument missing')
         sys.exit('service notification argument missing')
     else:
-        message['message_source']   = 'nagios'
         message['notificationtype'] = 'service'
         message['servicedesc']      = argsdict['servicedesc']
         message['hostalias']        = argsdict['hostalias']
